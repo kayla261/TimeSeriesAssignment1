@@ -1,0 +1,134 @@
+---
+title: "Employee_Survey_Data"
+author: "Kayla Lindsley"
+date: "2025-02-03"
+output: html_document
+---
+
+```{r}
+# Load the data
+Typical_Employee_Survey_Data <- read.csv("/Users/kaylalindsley/Desktop/Junior Yr/Semester 2/Time Series/Homework 1/Typical_Employee_Survey_Data.csv", header = FALSE)
+
+# 1. Assign header row
+names(Typical_Employee_Survey_Data) <- c("Age", "Gender", "Satisfaction", "Characteristics", "Years_Worked", "Promotion_Likeliness", "Decision_Making", "Budgetary_Decisions", "Pride", "Job_Turn_Down", "Relations")
+
+# 2. 5-point summary & boxplot
+fivenum(Typical_Employee_Survey_Data$Age)
+boxplot(Typical_Employee_Survey_Data$Age, main = "Age")
+axis(2, at = seq(floor(min(Typical_Employee_Survey_Data$Age)/5)*5, ceiling(max(Typical_Employee_Survey_Data$Age)/5)*5, by = 5))
+#From the boxplot we can see that the the median age of those who took the survey is 38yrs with majority of the data falling between 33-44 yrs. We can also see from the box plot that there are 3 outliers that fall outside of 1.5 times the IQR. 
+
+fivenum(Typical_Employee_Survey_Data$Years_Worked)
+boxplot(Typical_Employee_Survey_Data$Years_Worked, main = "Years Worked")
+axis(2, at = seq(floor(min(Typical_Employee_Survey_Data$Years_Worked)/5)*5, ceiling(max(Typical_Employee_Survey_Data$Years_Worked)/5)*5, by = 5))
+#From the boxplot we can see that the the median age of those who took the survey is 5yrs with majority of the data falling between 2-11 yrs. We can also see from the box plot that there are 8 outliers that fall outside of 1.5 times the IQR. 
+
+# 3. Convert columns to factors
+Typical_Employee_Survey_Data$Gender <- as.factor(Typical_Employee_Survey_Data$Gender)
+class(Typical_Employee_Survey_Data$Gender)
+
+Typical_Employee_Survey_Data$Satisfaction <- as.factor(Typical_Employee_Survey_Data$Satisfaction)
+class(Typical_Employee_Survey_Data$Satisfaction)
+
+Typical_Employee_Survey_Data$Characteristics <- as.factor(Typical_Employee_Survey_Data$Characteristics)
+class(Typical_Employee_Survey_Data$Characteristics)
+
+Typical_Employee_Survey_Data$Promotion_Likeliness <- as.factor(Typical_Employee_Survey_Data$Promotion_Likeliness)
+class(Typical_Employee_Survey_Data$Promotion_Likeliness)
+
+Typical_Employee_Survey_Data$Decision_Making <- as.factor(Typical_Employee_Survey_Data$Decision_Making)
+class(Typical_Employee_Survey_Data$Decision_Making)
+
+Typical_Employee_Survey_Data$Budgetary_Decisions <- as.factor(Typical_Employee_Survey_Data$Budgetary_Decisions)
+class(Typical_Employee_Survey_Data$Budgetary_Decisions)
+
+Typical_Employee_Survey_Data$Pride <- as.factor(Typical_Employee_Survey_Data$Pride)
+class(Typical_Employee_Survey_Data$Pride)
+
+Typical_Employee_Survey_Data$Job_Turn_Down <- as.factor(Typical_Employee_Survey_Data$Job_Turn_Down)
+class(Typical_Employee_Survey_Data$Job_Turn_Down)
+
+Typical_Employee_Survey_Data$Relations <- as.factor(Typical_Employee_Survey_Data$Relations)
+class(Typical_Employee_Survey_Data$Relations)
+
+# 4. Plot visuals
+# Age
+hist(Typical_Employee_Survey_Data$Age, main = "Age of People", xlab = "Age (yrs)", ylab = "Frequency")
+#From the histogram we can see that majority of the data is centered between 30yrs and 40yrs. The daat is slightly skewed to the left and we can theorize that the median will be between 35yrs 40yrs. 
+
+# Gender
+cat <- table(Typical_Employee_Survey_Data$Gender)
+lbls <- c("Male", "Female")
+pct <- round(cat/sum(cat)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls, "%", sep = "")
+pie(cat, labels = lbls, col = rainbow(length(lbls)), main= "Gender (%)")
+#From the pie chart we can see that the gender of the employees who took the survey is approximately equal. Males make up majority of the population of interest with 57% while females make up 43%.  
+
+# Satisfaction
+barplot(table(Typical_Employee_Survey_Data$Satisfaction), main = "Job Satisfaction", xlab = "Satisfaction", ylab = "Count")
+#From the barchart we can see that the satisfaction level of employees who took the survey is skewed to the right. Majority of employees rated their satisfaction a 5.  
+
+# Characteristics
+cat <- table(Typical_Employee_Survey_Data$Characteristics)
+lbls <- c("High Income", "No Danger of Being Fired", "Flexible Hours", "Opportunities for Advancement", "Enjoying the Work")
+pct <- round(cat/sum(cat)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls, "%", sep = "")
+pie(cat, labels = lbls, col = rainbow(length(lbls)), main= "Most Important Job Characteristics")
+#From the pie chart we can see that the most important job characteristic for majority of employees is the fact that they enjoy their work, with 52% of all employees who partook in the survey choosing enjoying the work as the most important characteristic.  The second most important characteristic is high income with 21% of employees choosing that as the most important characteristic. 
+
+# Years Worked
+hist(Typical_Employee_Survey_Data$Years_Worked, main = "Years Worked with Present Employer", xlab = "Years", ylab = "Frequency")
+#From the barchart we can see that the majority of employees have been working at their present employer between 0-5yrs. We can also see that there is an outlier between 50-55 yrs and that the median will likely be between 5-10yrs. 
+
+# Promotional Likeliness
+barplot(table(Typical_Employee_Survey_Data$Promotion_Likeliness), main = "Promotional Likeliness Within 5 Years", xlab = "Likeliness", ylab = "Count")
+#From the barchart we can see that the mode is 5 with the most number of employees surveyed being very unlikely to get promoted. The second most frequent likeliness is 4 meaning majority of employees surveyed are unlikely to be promoted within the next 5 yrs.
+
+# Decision Making
+barplot(table(Typical_Employee_Survey_Data$Decision_Making), main = "Ability to Take Part in Decision Making", xlab = "Regularity", ylab = "Count")
+#From the barchart we can see that the mode is 2 with the most employees surveyed partaking in decision making that affects their work much of the time. The second most frequent regularity is 3 meaning majority of employees surveyed often take part in decision making that affects their work.
+
+# Budgetary Decisions
+cat <- table(Typical_Employee_Survey_Data$Budgetary_Decisions)
+lbls <- c("Yes", "No")
+pct <- round(cat/sum(cat)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls, "%", sep = "")
+pie(cat, labels = lbls, col = rainbow(length(lbls)), main= "Participation in Budgetary Decisions")
+#From the pie chart we can see that amount of the employees who said they do and don't partake in budgetary decisions for work who partook in the survey is approximately equal. Those who said yes make up majority of the population of interest with 55% saying they partake in budgetary decisions while those who said they don't make up 45%.  
+
+# Pride
+barplot(table(Typical_Employee_Survey_Data$Pride), main = "Pride in working for Organization", xlab = "Pride", ylab = "Count")
+#From the barchart we can see that the mode is 2 with the most employees surveyed being somewhat proud of working for this organization. The second most frequent level of pride is 1 meaning majority of employees surveyed are proud to work at their current organization.
+
+# Job Turn Down
+barplot(table(Typical_Employee_Survey_Data$Job_Turn_Down), main = "Turn Down Another Job for More Pay", xlab = "Likeliness", ylab = "Count")
+#From the barchart we can see that the mode is 4 with the most employees surveyed being unlikely to turn down another job for more pay. From this we can see majority of employees would leave their current employer for a higher paying job.
+
+# Relations
+barplot(table(Typical_Employee_Survey_Data$Relations), main = "Relations Between Coworkers & Colleagues", xlab = "Very Good(1) --> Very Bad(5)", ylab = "Count")
+#From the barchart we can see that the mode is 1 with the most employees surveyed describing their workplace relations as very good. The second most frequent answer is 2 meaning intra office relations are good and there is good collabration within the office.
+
+# 5. Scatter plots
+# Age vs. Years Worked
+plot(Typical_Employee_Survey_Data$Age, Typical_Employee_Survey_Data$Years_Worked, main = "Age vs. Years Worked", xlab = "Age", ylab = "Years Worked")
+#There is a slight positive correlation between employee age and years worked with their current employer.  
+
+# Years Worked vs. Satisfaction
+plot(Typical_Employee_Survey_Data$Years_Worked, Typical_Employee_Survey_Data$Satisfaction, main = "Years Worked vs. Satisfaction", xlab = "Years Worked", ylab = "Satisfaction")
+#There is no evident correlation between years worked with their current employer and satisfaction
+
+# Years Worked vs. Promotion Likeliness
+plot(Typical_Employee_Survey_Data$Years_Worked, Typical_Employee_Survey_Data$Promotion_Likeliness, main = "Years Worked vs. Promotional Likeliness", xlab = "Years Worked", ylab = "Promotional Likeliness")
+#There is no evident correlation between years worked with their current employer and promotional likeliness
+
+# Years Worked vs. Job Turn Down
+plot(Typical_Employee_Survey_Data$Years_Worked, Typical_Employee_Survey_Data$Job_Turn_Down, main = "Years Worked vs. Job Turn Down", xlab = "Years Worked", ylab = "Job Turn Down")
+#There is no evident correlation between years worked with their current employer and likeliness to turn down another job for more pay
+
+# Age vs. Job Turn Down
+plot(Typical_Employee_Survey_Data$Age, Typical_Employee_Survey_Data$Job_Turn_Down, main = "Age vs. Job Turn Down", xlab = "Age", ylab = "Job Turn Down")
+#There is no evident correlation between age and likeliness to turn down another job for more pay
+
